@@ -1,5 +1,5 @@
 ## Table of Contents
-0. [Introduction] (
+0. [Introduction](#0-introduction)
 1. [Insecure Logging](#1-insecure-logging)
 2. [Hardcoded Secrets (Java)](#2-hardcoded-secrets-java)
 3. [Hardcoded Secrets (Native Code)](#3-hardcoded-secrets-native-code)
@@ -16,11 +16,11 @@
 
 ---
 
-## Introduction
+## 0. Introduction
 ## Environment Setup and Tools
 
 - **Android Emulator:** Install Android Studio or Genymotion and create a virtual device (*AVD*) without Google Play.
-- **DIVA APK:** [Download DIVA](https://github.com/payatu/diva-android-app) or compile it manually.
+- **DIVA APK:** [Download DIVA]([(https://github.com/0xArab/diva-apk-file/blob/main/DivaApplication.apk)]) or compile it manually.
 - **ADB (Android Debug Bridge):** For installing APKs, inspecting logs/files.
 - **Static Analysis Tools:** `JADX-GUI`, `Apktool`, `Ghidra`/`IDA Free`.
 - **Optional Tools:** `Burp Suite`, `Frida`, `Drozer`.
