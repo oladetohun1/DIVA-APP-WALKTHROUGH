@@ -47,6 +47,10 @@
 
 ## 1. Insecure Logging
 
+- **After using Jadx-gui to decompile the code, we were able to view part a part in the decompiled code that had code related to how inputs are being logged.
+![jadx-1](./image.jpg)
+
+
 - **Description:** Sensitive information is logged using `Log.e()`, which can be accessed via `logcat`.
 
 **Steps to Exploit:**
