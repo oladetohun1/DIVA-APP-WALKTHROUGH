@@ -1,15 +1,5 @@
-Absolutely! Let's expand the previous walkthrough to include all **13 vulnerabilities** present in the DIVA (Damn Insecure and Vulnerable App) Android application. Below is the comprehensive list of challenges, each with a placeholder for screenshots:
-
----
-
-# DIVA Android Pentest Full Walkthrough
-
-> **Note:** Insert screenshots for each stage where indicated.
-
----
-
 ## Table of Contents
-
+0. [Introduction] (
 1. [Insecure Logging](#1-insecure-logging)
 2. [Hardcoded Secrets (Java)](#2-hardcoded-secrets-java)
 3. [Hardcoded Secrets (Native Code)](#3-hardcoded-secrets-native-code)
@@ -25,6 +15,35 @@ Absolutely! Let's expand the previous walkthrough to include all **13 vulnerabil
 13. [Input Validation - JavaScript Injection](#13-input-validation---javascript-injection)
 
 ---
+
+## Introduction
+## Environment Setup and Tools
+
+- **Android Emulator:** Install Android Studio or Genymotion and create a virtual device (*AVD*) without Google Play.
+- **DIVA APK:** [Download DIVA](https://github.com/payatu/diva-android-app) or compile it manually.
+- **ADB (Android Debug Bridge):** For installing APKs, inspecting logs/files.
+- **Static Analysis Tools:** `JADX-GUI`, `Apktool`, `Ghidra`/`IDA Free`.
+- **Optional Tools:** `Burp Suite`, `Frida`, `Drozer`.
+
+---
+
+## Static Analysis Steps
+
+- **Inspect AndroidManifest.xml:** Find exported Activities/Services/Providers.
+- **Look for Hardcoded Strings:** Search for API keys, passwords.
+- **Identify Unsafe APIs:** `Log.e()`, plaintext storage, `loadUrl()`, etc.
+- **Trace Input Handling:** Look for bad concatenations, unchecked parameters.
+
+---
+
+## Dynamic Analysis Techniques
+
+- Use `adb logcat` to monitor logs.
+- Shell into the app’s private storage with `adb shell`.
+- Invoke exported components via `adb shell am start`.
+- Pull databases/files with `adb pull`.
+- Analyze database files with `sqlite3` or SQLite Browser.
+
 
 ## 1. Insecure Logging
 
