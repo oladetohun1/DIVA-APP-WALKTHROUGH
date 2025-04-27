@@ -48,7 +48,9 @@
 ## 1. Insecure Logging
 
 - **After using Jadx-gui to decompile the code, we were able to view part a part in the decompiled code that had code related to how inputs are being logged.
-![jadx-1](./Images/adb device.jpeg)
+-
+![jadx-1](./Images/adb%20device.jpeg)
+
 
 
 - **Description:** Sensitive information is logged using `Log.e()`, which can be accessed via `logcat`.
