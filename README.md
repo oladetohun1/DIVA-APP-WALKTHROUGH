@@ -47,8 +47,8 @@
 
 ## 1. Insecure Logging
 
-- **After using Jadx-gui to decompile the code, we were able to view part a part in the decompiled code that had code related to how inputs are being logged.
--
+- **Firstly, I used Jadx-gui to decompile the application,from there I was able to view part a part in the decompiled code that had code related to how inputs are being logged.
+-![jadx-1](./Images/jadx-1.jpeg)
 ![jadx-1](./Images/adb%20device.jpeg)
 
 
