@@ -47,9 +47,17 @@
 
 ## 1. Insecure Logging
 
-- **Firstly, I used Jadx-gui to decompile the application,from there I was able to view part a part in the decompiled code that had code related to how inputs are being logged.
--![jadx-1](./Images/jadx-1.jpeg)
-![jadx-1](./Images/adb%20device.jpeg)
+- **Firstly, I used Jadx-gui to decompile the application, from there I was able to view part a part in the decompiled code that had code related to how inputs are being logged.
+![jadx-1](./Images/jadx-1.jpeg)
+
+After this, I proceeded to setup Adb to interact with the application on my mobile device.
+![adb-1](./Images/adb%20device.jpeg)
+
+This shows that my android devices is attached successful to ADb and I can now interact and see that the applications on the device.
+![adb-1](./Images/adb%20device.jpeg)
+
+After connecting I proceeded to check for the process ID of the Diva Vulnerable application that is running
+![pid](./Images/processes.png)
 
 
 
