@@ -53,28 +53,19 @@
 After this, I proceeded to setup Adb to interact with the application on my mobile device.
 ![adb-1](./Images/adb%20device.jpeg)
 
-This shows that my android devices is attached successful to ADb and I can now interact and see that the applications on the device.
-![adb-1](./Images/adb%20device.jpeg)
-
-After connecting I proceeded to check for the process ID of the Diva Vulnerable application that is running
+This shows that my android devices is attached successful to ADb and I can now interact and see the process ID of the applications on the device.
 ![pid](./Images/processes.png)
 
 
+After connecting I proceeded to the first task on the vulnerable application which is Insecure Logging.Here after i opening i got an inut prompt that asked for my credit card details. I inputted it here and by the side i used `logcat` on adbshell  to check how information inputted in input fields are logged. 
+![pid](./Images/app-1.jpeg)
 
-- **Description:** Sensitive information is logged using `Log.e()`, which can be accessed via `logcat`.
-
-**Steps to Exploit:**
-
-1. Launch the **Insecure Logging** challenge in the DIVA app.
-2. Enter dummy credit card information.
-3. Run `adb logcat` to view logs.
-4. Look for logs containing the entered credit card number.
-
+From this i was able to see that the information is actually logged in plain text using the command below
 ```bash
 adb logcat | grep diva-log
 ```
+![pid](./Images/logged.jpeg)
 
-> **📸 Screenshot Placeholder:** *Logcat displaying sensitive information.*
 
 **Remediation:** Avoid logging sensitive information. Use secure logging practices and sanitize inputs before logging.
 
