@@ -47,20 +47,20 @@
 
 ## 1. Insecure Logging
 
-- **Firstly, I used Jadx-gui to decompile the application, from there I was able to view part a part in the decompiled code that had code related to how inputs are being logged.
+- Firstly, I used Jadx-gui to decompile the application, from there I was able to view part a part in the decompiled code that had code related to how inputs are being logged.
 ![jadx-1](./Images/jadx-1.jpeg)
 
-After this, I proceeded to setup Adb to interact with the application on my mobile device.
+- After this, I proceeded to setup Adb to interact with the application on my mobile device.
 ![adb-1](./Images/adb%20device.jpeg)
 
-This shows that my android devices is attached successful to ADb and I can now interact and see the process ID of the applications on the device.
+- This shows that my android devices is attached successful to ADb and I can now interact and see the process ID of the applications on the device.
 ![pid](./Images/processes.png)
 
 
-After connecting I proceeded to the first task on the vulnerable application which is Insecure Logging.Here after i opening i got an inut prompt that asked for my credit card details. I inputted it here and by the side i used `logcat` on adbshell  to check how information inputted in input fields are logged. 
+- After connecting I proceeded to the first task on the vulnerable application which is Insecure Logging.Here after i opening i got an inut prompt that asked for my credit card details. I inputted it here and by the side i used `logcat` on adbshell  to check how information inputted in that input field is logged. 
 ![pid](./Images/app-1.jpeg)
 
-From this i was able to see that the information is actually logged in plain text using the command below
+- From this, I was able to see that the information is actually logged in plain text using the command below in `adb shell`
 ```bash
 adb logcat | grep diva-log
 ```
