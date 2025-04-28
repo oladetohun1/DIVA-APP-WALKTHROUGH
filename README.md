@@ -72,8 +72,8 @@ adb logcat | grep diva-log
 ---
 
 ## 2. Hardcoded Secrets (Java)
-
-- **Description:** Secret keys are hardcoded in the Java source code.
+![Harcoded Secrets](./Images/2-HArdcoding%20issues.jpeg)
+- For this part,frstly i looked through the decompiled application again,.
 
 **Steps to Exploit:**
 
