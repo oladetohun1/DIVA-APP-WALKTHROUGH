@@ -57,7 +57,8 @@
 ![pid](./Images/processes.png)
 
 
-- After connecting I proceeded to the first task on the vulnerable application which is Insecure Logging.Here after i opening i got an inut prompt that asked for my credit card details. I inputted it here and by the side i used `logcat` on adbshell  to check how information inputted in that input field is logged. 
+- After connecting I proceeded to the first task on the vulnerable application which is Insecure Logging.Here after i opening i got an inut prompt that asked for my credit card details. I inputted it here and by the side i used `logcat` on adbshell to check how information inputted in that input field is logged.
+
 ![pid](./Images/app-1.jpeg)
 
 - From this, I was able to see that the information is actually logged in plain text using the command below in `adb shell`
