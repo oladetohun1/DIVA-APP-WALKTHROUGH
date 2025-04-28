@@ -1,8 +1,8 @@
 ## Table of Contents
 0. [Introduction](#0-introduction)
 1. [Insecure Logging](#1-insecure-logging)
-2. [Hardcoded Secrets (Java)](#2-hardcoded-secrets-java)
-3. [Hardcoded Secrets (Native Code)](#3-hardcoded-secrets-native-code)
+2. [Hardcoded Issues (Part1)](#2-hardcoded-secrets-java)
+3. [Hardcoded Issues (Part2)](#3-hardcoded-secrets-native-code)
 4. [Insecure Data Storage - SharedPreferences](#4-insecure-data-storage---sharedpreferences)
 5. [Insecure Data Storage - SQLite Database](#5-insecure-data-storage---sqlite-database)
 6. [Insecure Data Storage - Temporary File](#6-insecure-data-storage---temporary-file)
@@ -71,18 +71,17 @@ adb logcat | grep diva-log
 
 ---
 
-## 2. Hardcoded Secrets (Java)
+## 2. Hardcoded Issues (Part 1)
 ![Harcoded Secrets](./Images/2-HArdcoding%20issues.jpeg)
-- For this part,frstly i looked through the decompiled application again,.
+- For this part,frstly i looked through the decompiled application again,at the source code section. I saw an intersting file named `HardcodeActivity`, on viewing this file i saw implementation where a key check is done i.e users input is checked with the actuall key. This key is hardcoded.
 
-**Steps to Exploit:**
+![pid](./Images/2-hkey-1.png)
 
-1. Launch the **Hardcoding Issues - Part 1** challenge.
-2. Decompile the APK using `JADX` or a similar tool.
-3. Search for hardcoded strings like `vendorsecretkey`.
-4. Use the discovered key to bypass authentication.
+- To test if this is actually present on the application, we input a key not equal to what is hardcoded and one equal to it to see the difference.
 
-> **📸 Screenshot Placeholder:** *Decompiled code showing hardcoded secrets.*
+<img src="path/to/2-sec1.jpeg" alt="Image 1" style="display:inline-block; width:45%" />
+<img src="path/to/2-sec2.jpeg" alt="Image 2" style="display:inline-block; width:45%" />
+
 
 **Remediation:** Store secrets securely using Android's Keystore system or secure server-side storage.
 
