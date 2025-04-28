@@ -79,8 +79,10 @@ adb logcat | grep diva-log
 
 - To test if this is actually present on the application, we input a key not equal to what is hardcoded and one equal to it to see the difference.
 
-<img src="./Images/2-sec1.jpeg" alt="Image 1" style="display:inline-block; width:45%" />
-<img src="./Images/2-sec2.jpeg" alt="Image 2" style="display:inline-block; width:45%" />
+<div style="display: flex; justify-content: space-between; align-items: center;">
+  <img src="./Images/2-sec1.jpeg" alt="Image 1" style="width: 45%;" />
+  <img src="./Images/2-sec2.jpeg" alt="Image 2" style="width: 45%;" />
+</div>
 
 
 **Remediation:** Store secrets securely using Android's Keystore system or secure server-side storage.
