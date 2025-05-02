@@ -2,16 +2,16 @@
 0. [Introduction](#0-introduction)
 1. [Insecure Logging](#1-insecure-logging)
 2. [Hardcoded Issues (Part1)](#2-hardcoded-secrets-java)
-3. [Hardcoded Issues (Part2)](#3-hardcoded-secrets-native-code)
-4. [Insecure Data Storage - SharedPreferences](#4-insecure-data-storage---sharedpreferences)
-5. [Insecure Data Storage - SQLite Database](#5-insecure-data-storage---sqlite-database)
-6. [Insecure Data Storage - Temporary File](#6-insecure-data-storage---temporary-file)
-7. [Insecure Data Storage - External Storage](#7-insecure-data-storage---external-storage)
-8. [Input Validation - SQL Injection](#8-input-validation---sql-injection)
-9. [Input Validation - WebView File Access](#9-input-validation---webview-file-access)
-10. [Access Control Issues - Part 1](#10-access-control-issues---part-1)
-11. [Access Control Issues - Part 2](#11-access-control-issues---part-2)
-12. [Access Control Issues - Part 3](#12-access-control-issues---part-3)
+3. [Insecure Data Storage - SharedPreferences](#4-insecure-data-storage---sharedpreferences)
+4. [Insecure Data Storage - SQLite Database](#5-insecure-data-storage---sqlite-database)
+5. [Insecure Data Storage - Temporary File](#6-insecure-data-storage---temporary-file)
+6. [Insecure Data Storage - External Storage](#7-insecure-data-storage---external-storage)
+7. [Input Validation - SQL Injection](#8-input-validation---sql-injection)
+8. [Input Validation - WebView File Access](#9-input-validation---webview-file-access)
+9. [Access Control Issues - Part 1](#10-access-control-issues---part-1)
+10. [Access Control Issues - Part 2](#11-access-control-issues---part-2)
+11. [Access Control Issues - Part 3](#12-access-control-issues---part-3)
+12. [Hardcoded Issues (Part2)](#2-hardcoded-secrets-java)
 13. [Input Validation - JavaScript Injection](#13-input-validation---javascript-injection)
 
 ---
@@ -89,54 +89,53 @@ adb logcat | grep diva-log
 
 ---
 
-## 3. Hardcoded Secrets (Native Code)
+## 3. Insecure Data Storage - SharedPreferences(part 2)
 
 - **Description:** Secrets are embedded within native libraries (`.so` files).
 
 **Steps to Exploit:**
 
-1. Extract the `libdivajni.so` file from the APK.
-2. Analyze the library using tools like `Ghidra` or `IDA Pro`.
-3. Locate functions like `Java_jakhar_aseem_diva_DivaJni_access` to find hardcoded secrets.
+1. using Jadx to decompile, i noticed that credetials were stored in a folder.
+![pid](./Images/hardocded%20creds-1.png)
 
-> **📸 Screenshot Placeholder:** *Disassembled native code revealing secrets.*
+2. using ADB shell, i located the folder where it was stored an then saw the credetials were stored in plain text insdide an XML file
+![pid](./Images/storing%20creds-3.png)
+
 
 **Remediation:** Avoid hardcoding secrets in native code. Use secure storage mechanisms.
 
 ---
 
-## 4. Insecure Data Storage - SharedPreferences
-
-- **Description:** Sensitive data is stored in plaintext within `SharedPreferences`.
-
-**Steps to Exploit:**
-
-1. Launch the **Insecure Data Storage - Part 1** challenge.
-2. Enter sample credentials and save.
-3. Access the `shared_prefs` directory:
-
-```bash
-adb shell
-cd /data/data/jakhar.aseem.diva/shared_prefs/
-cat jakhar.aseem.diva_preferences.xml
-```
-
-> **📸 Screenshot Placeholder:** *SharedPreferences file displaying plaintext credentials.*
-
-**Remediation:** Use `EncryptedSharedPreferences` or other encryption methods to secure stored data.
-
----
-
-## 5. Insecure Data Storage - SQLite Database
+## 4. Insecure Data Storage - SQLite Database
 
 - **Description:** Credentials are stored in an unencrypted SQLite database.
 
 **Steps to Exploit:**
 
 1. Launch the **Insecure Data Storage - Part 2** challenge.
-2. Enter sample credentials and save.
-3. Access and pull the database:
+2. Enter service credentials and save.
+![storage creds](./Images/id-4.png)
 
+    Based on the image above, we can identify where the credentials are stored and observe that they are saved in an SQL database format. Our next step is to locate the database that contains the ids2 entry and determine whether it is a directory or a readable file.
+![4-IDS](./Images/4-IDS.png)
+As seen above, we will first input user credentials to ensure data is written to the database, which we will then attempt to locate.
+
+3. Access the Database:
+![4-IDS](./Images/rd-4.png)
+This above shows that the file is not readable from the shell and is a db file.
+
+    Now we would exit from the shell and pull the file to our local system
+    ```bash
+    adb pull /data/data/jakhar.aseem.diva/databases/ids2
+    ```
+    ![4-IDS](./Images/pull-4.png)
+    After pulling the db file we were able to see the content with the username and password of the service stored in it.
+    ![4-cred](./Images/cred-4.png)
+```bash
+adb shell
+cd /data/data/jakhar.aseem.diva/shared_prefs/
+cat jakhar.aseem.diva_preferences.xml
+```
 ```bash
 adb shell
 cd /data/data/jakhar.aseem.diva/databases/
@@ -144,10 +143,27 @@ adb pull ids2
 sqlite3 ids2
 sqlite> SELECT * FROM myuser;
 ```
+**Remediation:** Use `EncryptedSharedPreferences` or other encryption methods to secure stored data.
 
-> **📸 Screenshot Placeholder:** *SQLite database displaying stored credentials.*
+---
 
-**Remediation:** Encrypt sensitive data before storing in databases or use encrypted databases.
+## 5. Insecure Data Storage - Temporary File
+
+- **Description:** Sensitive data is written to temporary files in plaintext.
+
+**Steps to Exploit:**
+
+1. Launch the **Insecure Data Storage - Part 3** challenge.
+2. Enter sample credentials and save.
+![5-IDS](./Images/tmf-5.png)
+3. Locate and read the temporary file:
+From the above , we see that the temporary file is created when the user clicks save on the aplication
+![5-IDS](./Images/tmfc-5.png)
+4. Checking the content of the file, we see that the credentials are indeed stored in the file.
+![5-IDS](./Images/tmfx-5.png)
+
+
+**Remediation:** Avoid storing sensitive data in temporary files or ensure they are securely deleted after use.
 
 ---
 
@@ -170,7 +186,6 @@ cat uinfo*.tmp
 
 > **📸 Screenshot Placeholder:** *Temporary file displaying stored credentials.*
 
-**Remediation:** Avoid storing sensitive data in temporary files or ensure they are securely deleted after use.
 
 ---
 
