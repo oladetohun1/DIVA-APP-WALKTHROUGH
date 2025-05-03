@@ -74,34 +74,34 @@ adb logcat | grep diva-log
 
 ## 2. Hardcoded Issues (Part 1)
 
-![Harcoded Secrets](./Images/2-HArdcoding%20issues.jpeg)
+  ![Harcoded Secrets](./Images/2-HArdcoding%20issues.jpeg)
 
-- For this part,frstly i looked through the decompiled application again,at the source code section. I saw an intersting file named `HardcodeActivity`, on viewing this file i saw implementation where a key check is done i.e users input is checked with the actuall key. This key is hardcoded.
+  - For this part,frstly i looked through the decompiled application again,at the source code section. I saw an intersting file named `HardcodeActivity`, on viewing this file i saw implementation where a key check is done i.e users input is checked with the actuall key. This key is hardcoded.
 
-![pid](./Images/2-hkey-1.png)
+  ![pid](./Images/2-hkey-1.png)
 
-- To test if this is actually present on the application, we input a key not equal to what is hardcoded and one equal to it to see the difference.
+  - To test if this is actually present on the application, we input a key not equal to what is hardcoded and one equal to it to see the difference.
 
-<div style="display: flex; justify-content: space-between; align-items: center;">
-  <img src="./Images/2-sec1.jpeg" alt="Image 1" style="width: 45%;" />
-  <img src="./Images/2-sec2.jpeg" alt="Image 2" style="width: 45%;" />
-</div>
+  <div style="display: flex; justify-content: space-between; align-items: center;">
+    <img src="./Images/2-sec1.jpeg" alt="Image 1" style="width: 45%;" />
+    <img src="./Images/2-sec2.jpeg" alt="Image 2" style="width: 45%;" />
+  </div>
 
-**Remediation:** Store secrets securely using Android's Keystore system or secure server-side storage.
+  **Remediation:** Store secrets securely using Android's Keystore system or secure server-side storage.
 
----
+  ---
 
-## 3. Insecure Data Storage - SharedPreferences(part 2)
+  ## 3. Insecure Data Storage - SharedPreferences(part 2)
 
-- **Description:** Secrets are embedded within native libraries (`.so` files).
+  - **Description:** Secrets are embedded within native libraries (`.so` files).
 
-**Steps to Exploit:**
+  **Steps to Exploit:**
 
-1. using Jadx to decompile, i noticed that credetials were stored in a folder.
-   ![pid](./Images/hardocded%20creds-1.png)
+  1. using Jadx to decompile, i noticed that credetials were stored in a folder.
+    ![pid](./Images/hardocded%20creds-1.png)
 
-2. using ADB shell, i located the folder where it was stored an then saw the credetials were stored in plain text insdide an XML file
-   ![pid](./Images/storing%20creds-3.png)
+  2. using ADB shell, i located the folder where it was stored an then saw the credetials were stored in plain text insdide an XML file
+    ![pid](./Images/storing%20creds-3.png)
 
 **Remediation:** Avoid hardcoding secrets in native code. Use secure storage mechanisms.
 
@@ -120,10 +120,13 @@ adb logcat | grep diva-log
         Based on the image above, we can identify where the credentials are stored and observe that they are saved in an SQL database format. Our next step is to locate the database that contains the ids2 entry and determine whether it is a directory or a readable file.
 
     ![4-IDS](./Images/4-IDS.png)
+    
     As seen above, we will first input user credentials to ensure data is written to the database, which we will then attempt to locate.
 
 3.  Access the Database:
+
     ![4-IDS](./Images/rd-4.png)
+
     This above shows that the file is not readable from the shell and is a db file.
 
         Now we would exit from the shell and pull the file to our local system
@@ -134,19 +137,19 @@ adb logcat | grep diva-log
         After pulling the db file we were able to see the content with the username and password of the service stored in it.
         ![4-cred](./Images/cred-4.png)
 
-```bash
-adb shell
-cd /data/data/jakhar.aseem.diva/shared_prefs/
-cat jakhar.aseem.diva_preferences.xml
-```
+    ```bash
+    adb shell
+    cd /data/data/jakhar.aseem.diva/shared_prefs/
+    cat jakhar.aseem.diva_preferences.xml
+    ```
 
-```bash
-adb shell
-cd /data/data/jakhar.aseem.diva/databases/
-adb pull ids2
-sqlite3 ids2
-sqlite> SELECT * FROM myuser;
-```
+    ```sql
+    adb shell
+    cd /data/data/jakhar.aseem.diva/databases/
+    adb pull ids2
+    sqlite3 ids2
+    sqlite> SELECT * FROM myuser;
+    ```
 
 **Remediation:** Use `EncryptedSharedPreferences` or other encryption methods to secure stored data.
 
@@ -156,7 +159,7 @@ sqlite> SELECT * FROM myuser;
 
 - **Description:** Sensitive data is written to temporary files in plaintext.
 
-**Steps to Exploit:**
+  **Steps to Exploit:**
 
 1. Launch the **Insecure Data Storage - Part 3** challenge.
 2. Enter sample credentials and save.
@@ -382,6 +385,7 @@ adb shell am start -n jakhar.aseem.diva/.APICreds2Activity -a jakhar.aseem.diva.
 1. Launch the DIVA App
    Open the DIVA app on your device and Navigate to Access Control Issues – Part 3.
    ![Access control issues](./Images/11aci.png)
+   
    Observe that the app prompts you to create a 4-digit PIN to access private notes.
 
 - If we create a PIN, we can use the pin to access the notes.
@@ -403,19 +407,23 @@ adb shell am start -n jakhar.aseem.diva/.APICreds2Activity -a jakhar.aseem.diva.
 2.  Monitor `Logcat` for Activity Information
     Open a terminal and start monitoring logcat:
 
-        ```less
+    ```bash
         adb logcat
-        ```
-        In the DIVA app, attempt to access the private notes.
+    ```
+
+      In the DIVA app, attempt to access the private notes.
         In the logcat output, look for the activities that are launched. You should see entries like:
-        ```less
-        Starting activity: Intent { cmp=jakhar.aseem.diva/.AccessControl3Activity }
-        Starting activity: Intent { cmp=jakhar.aseem.diva/.AccessControl3NotesActivity }
-        ```
-        This indicates that AccessControl3Activity handles PIN creation, and AccessControl3NotesActivity displays the private notes after PIN verification.
+    
+    ```bash
+    Starting activity: Intent { cmp=jakhar.aseem.diva/.AccessControl3Activity }
+    Starting activity: Intent { cmp=jakhar.aseem.diva/.AccessControl3NotesActivity }
+     ```
+      This indicates that AccessControl3Activity handles PIN creation, and AccessControl3NotesActivity displays the private notes after PIN verification.
 
     DEV Community
+
     ![Access control issues](./Images/11ana.png)
+
     ![Access control issues](./Images/11an1.png)
 
 3.  Decompile the APK to Inspect the Content Provider
@@ -538,14 +546,18 @@ adb shell am start -n jakhar.aseem.diva/.APICreds2Activity -a jakhar.aseem.diva.
    ```
    strings libdivajni.so
    ```
+      ![scrpy function](./Images/13strcpy.png)
 
-   Look for functions like strcpy, which are known to be vulnerable to buffer overflows.
+      Look for functions like strcpy, which are known to be vulnerable to buffer overflows.
 
 4. Trigger the Buffer Overflow In the DIVA app's Input Validation Issues – Part 3 section, enter a long string (e.g., 100 characters of 'A'):
    `      AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
    `
    Submit the input and observe the application's behavior.
    The application should crash, indicating a successful buffer overflow exploit.
+
+   ![does 1](./Images/13dos1.png)
+  ![does 2](./Images/13dos2.png)
 
 **ISSUES:** The application uses the strcpy function in its native code without proper bounds checking. This allows an attacker to input data that exceeds the allocated buffer size, leading to a buffer overflow and subsequent application crash. This is a classic example of a Denial of Service (DoS) vulnerability
 
