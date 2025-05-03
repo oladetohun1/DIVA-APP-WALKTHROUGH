@@ -368,7 +368,8 @@ adb shell am start -n jakhar.aseem.diva/.APICreds2Activity -a jakhar.aseem.diva.
     <img src="./Images/sf10.png" alt="Image 1" style="width: 49.0%;" />
     <img src="./Images/byc10.png" alt="Image 2" style="width: 49.0%;" />
     </div>
-    **ISSUES:** The core issue here is the improper use of exported activities and reliance on client-side checks for security. The APICreds2Activity is exported and can be launched by any component, including external ones. By passing the check_pin parameter as false, an attacker can bypass the PIN verification entirely.
+    
+[**ISSUES:** The core issue here is the improper use of exported activities and reliance on client-side checks for security. The APICreds2Activity is exported and can be launched by any component, including external ones. By passing the check_pin parameter as false, an attacker can bypass the PIN verification entirely.
 
 **Remediation:** Validate intent extras and implement proper authentication checks.
 
@@ -391,13 +392,13 @@ adb shell am start -n jakhar.aseem.diva/.APICreds2Activity -a jakhar.aseem.diva.
 - If we create a PIN, we can use the pin to access the notes.
   <div style="display: flex; justify-content: space-between; align-items: center;">
       <img src="./Images/11cp.png" alt="Image 1" style="width: 49.0%;" />
-      <img src="./Images/11an.png" alt="Image 2" style="width: 49.0%;" />
+      <img src="./Images/11An.png" alt="Image 2" style="width: 49.0%;" />
       </div>
             <img src="./Images/11pn.png" alt="Image 2" style=" align-items:center;" />
 
 - If we use the wrong PIN, we get an error.
   <div style="display: flex; justify-content: space-between; align-items: center;">
-      <img src="./Images/11an.png" alt="Image 1" style="width: 49.0%;" />
+      <img src="./Images/11An.png" alt="Image 1" style="width: 49.0%;" />
       <img src="./Images/11ip.png" alt="Image 2" style="width: 49.0%;" />
       </div>
 - What if we can access this notes without creating a PIN ?
