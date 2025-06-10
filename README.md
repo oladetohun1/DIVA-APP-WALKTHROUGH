@@ -128,12 +128,13 @@ adb logcat | grep diva-log
     ![4-IDS](./Images/rd-4.png)
 
     This above shows that the file is not readable from the shell and is a db file.
-
-        Now we would exit from the shell and pull the file to our local system
-        ```bash
-        adb pull /data/data/jakhar.aseem.diva/databases/ids2
-        ```
-        ![4-IDS](./Images/pull-4.png)
+Now we would exit from the shell and pull the file to our local system
+       
+    ```bash
+    adb pull /data/data/jakhar.aseem.diva/databases/ids2
+    ``` 
+         
+      ![4-IDS](./Images/pull-4.png)
         After pulling the db file we were able to see the content with the username and password of the service stored in it.
         ![4-cred](./Images/cred-4.png)
 
@@ -151,7 +152,7 @@ adb logcat | grep diva-log
     sqlite> SELECT * FROM myuser;
     ```
 
-**Remediation:** Use `EncryptedSharedPreferences` or other encryption methods to secure stored data.
+    **Remediation:** Use `EncryptedSharedPreferences` or other encryption methods to secure stored data.
 
 ---
 
